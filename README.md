@@ -34,15 +34,17 @@ in your app and/or console configuration file, add these
 
 **Just type in an address string as you do on google maps!**
 
-    $address = '70180 Stuttgart, Germany';
-
-    GoogleMapApi::createImage($address,null);
+    $address 	  = '70180 Stuttgart, Germany';
+    $googleMapApi = new GoogleMapApi();
+    
+    $googleMapApi->createImage($address,null);
 
 **For query by latitude and longitude**
 
-    $latlng = '48.7632145,9.174027';
+    $latlng 	  = '48.7632145,9.174027';
+    $googleMapApi = new GoogleMapApi();
 
-    GoogleMapApi::createImage(null, $latlng);
+    $googleMapApi->createImage(null, $latlng);
 
 
 ###Method descriptions
