@@ -1,26 +1,33 @@
 PHP Google API
 ===
 
-...for Google API v3, PHP >= 5, Yii 1.*
+Version 0.1.0
+
+...for Google Map API v3, PHP >= 5, Yii 1.*
 
 ###Configuration
 ---
-in your app and/or console configuration file, add these 'params'
+in your app and/or console configuration file, add these
 
-	'params' => array(
-	    'Google_MAP' => array(
-	    	'API_KEY_IMAGE' => '**********************', // Required
-	    	'API_KEY_GEO'   => '**********************', // Required
-	    	'TYPE'  		=> 'terrain',                // Required
-	    	'SIZE'  		=> '500x350',
-	    	'ZOOM'  		=> 9,
-	    	'SENSOR'		=> false,
-	    	'SCALE' 		=> 2,
-	    	'IMAGE_PATH'	=> '/images/google_map',     // Required. Directory must exist
-	    	'LANGUAGE'	    => 'de',                     // default: en
-	    ),
+    'components' => array(
+    	'googleMapApi'   => array(
+    			'class'             => 'vendor.quexer69.php-google-api.GoogleMapApi',
+                /**
+                 * Google Maps Image and Geocode API settings
+                 */
+                'staticmap_api_key' => 'AIzaSyBLBPqma_9xReVGyq22Z0nIYrbymkdqjjo',
+                'geocode_api_key'   => 'AIzaSyC5TEafNG5sTT42j4X5RVXxdXnhk5o4Bz8',
+                'map_type'          => 'terrain',
+                'map_size'          => '520x350',
+                'map_sensor'        => false,
+                'map_zoom_image'    => 9,
+                'map_scale'         => 1,
+                'map_image_path'    => '/images/google_map',
+                'language'          => 'de',
+    	),
 		...
 	),
+
 
 ###Usage
 ---

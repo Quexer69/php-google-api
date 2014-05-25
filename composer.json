@@ -3,7 +3,7 @@
     "description": "A collection of google map api calls, staticmap, gecode",
 	"version": "0.1.0",
     "require": {
-        "schmunk42/php-inflector": "0.*"
+        "schmunk42/php-inflector": "0.2.*"
     },
     "license": "MIT",
     "authors": [
