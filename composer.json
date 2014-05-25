@@ -1,0 +1,16 @@
+{
+    "name": "quexer69/php-google-api",
+    "description": "A collection of google map api calls, staticmap, gecode",
+	"version": "0.1.0",
+    "require": {
+        "schmunk42/php-inflector": "0.*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Christopher Stebe",
+            "email": "cstebe@iserv4u.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
