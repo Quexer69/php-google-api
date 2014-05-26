@@ -419,6 +419,34 @@ class GoogleMapApi extends CApplicationComponent
     }
 
     /**
+     * @param array $start (key[0] = lat, key[1] = lng)
+     * @param array $finish (key[0] = lat, key[1] = lng)
+     * @param string $unit miles | km
+     *
+     * @return float rounded to 15,xx
+     */
+    public function getDistance($start = array(), $finish = array(), $unit = 'miles')
+    {
+        $theta    = $start[1] - $finish[1];
+        $distance = (sin(deg2rad($start[0])) * sin(deg2rad($finish[0]))) + (cos(deg2rad($start[0])) * cos(
+                    deg2rad($finish[0])
+                ) * cos(deg2rad($theta)));
+        $distance = acos($distance);
+        $distance = rad2deg($distance);
+
+        switch (true) {
+            case $unit = 'miles' :
+                $distance = $distance * 60 * 1.1515;
+                break;
+            case $unit = 'km' :
+                $distance = $distance * 60 * 1.1515 * 1.609344;
+                break;
+        }
+
+        return round($distance, 2);
+    }
+
+    /**
      * @param array $attributes Input an array of attributes to create a filename from
      * @param string $type type of the file
      *
