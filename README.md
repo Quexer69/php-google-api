@@ -1,7 +1,7 @@
 PHP Google API
 ===
 
-Version 1.0.1
+Version 1.1.1
 
 ...for Google Map API v3, PHP >= 5, Yii 1.*
 
@@ -44,6 +44,13 @@ in your app and/or console configuration file, add these
 
     $filePath     = Yii::app()->googleMapApi->createImage(null, $latlng);
 
+**Calculate Distance between two geo points**
+
+    $latlng_origin	  = array('48.7632145,9.174027');
+    $latlng_destination	  = array('48.4525334,9.468254');
+    $unit		  = 'miles' // or 'km'
+
+    $distance		  = Yii::app()->googleMapApi->getDistance($latlng_origin, $latlng_destination, $unit);
 
 ###Method descriptions
 ---
