@@ -17,7 +17,7 @@
  */
 class GoogleMapApi extends CApplicationComponent
 {
-    // Google statixmap/goecode api settings
+    // Google staticmap/geocode api settings
     public $staticmap_api_key;
     public $geocode_api_key;
     public $map_type = 'terrain';
