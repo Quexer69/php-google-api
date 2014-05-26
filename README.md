@@ -20,7 +20,7 @@ in your app and/or console configuration file, add these
                 'map_type'          => 'terrain',
                 'map_size'          => '520x350',
                 'map_sensor'        => false,
-                'map_zoom_image'    => 9,
+                'map_zoom'          => 9,
                 'map_scale'         => 1,
                 'map_image_path'    => '/images/google_map',
                 'language'          => 'de',
@@ -35,16 +35,14 @@ in your app and/or console configuration file, add these
 **Just type in an address string as you do on google maps!**
 
     $address 	  = '70180 Stuttgart, Germany';
-    $googleMapApi = new GoogleMapApi();
-    
-    $googleMapApi->createImage($address,null);
+
+    $filePath     = Yii::app()->googleMapApi->createImage($address,null);
 
 **For query by latitude and longitude**
 
     $latlng 	  = '48.7632145,9.174027';
-    $googleMapApi = new GoogleMapApi();
 
-    $googleMapApi->createImage(null, $latlng);
+    $filePath     = Yii::app()->googleMapApi->createImage(null, $latlng);
 
 
 ###Method descriptions
