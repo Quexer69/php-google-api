@@ -14,35 +14,24 @@
  * @version 1.0.0
  * @author Christopher Stebe <cstebe@iserv4u.com>
  *
- *
- * Config params to be configured:
- *
- * 'params' => array(
- *  'GOOGLE_MAP' => array(
- *      'API_KEY_IMAGE' => '*****************',     // Key for image requests
- *      'API_KEY_GEO'   => '*****************',     // Key for geo requests
- *      'TYPE'          => 'terrain',               // Map type
- *      'SIZE'          => '500x350',               // Size of the image
- *      'ZOOM'          => 9,
- *      'SENSOR'        => false,
- *      'SCALE'         => 2,
- *      'IMAGE_PATH'    => '/images/google_map',    // public path
- *      'LANGUAGE'      => 'de',                    // country code
- *  )
- * ),
- *
  */
-class GoogleMapApi
+class GoogleMapApi extends CApplicationComponent
 {
+    // Google statixmap/goecode api settings
+    public $staticmap_api_key;
+    public $geocode_api_key;
+    public $map_type = 'terrain';
+    public $map_size = '520x350';
+    public $map_sensor = false;
+    public $map_zoom = 9;
+    public $map_scale = 1;
+    public $map_image_path = '/images';
+    public $map_language = 'en';
+
     /**
      * @var full path to webroot
      */
     public static $webroot;
-
-    /**
-     * @var config params
-     */
-    public static $params;
 
     /**
      * @var array country codes to country names from http://pastebin.com/VSAvVng6
@@ -292,25 +281,29 @@ class GoogleMapApi
         'ZW' => 'Zimbabwe',
     );
 
+    public function init()
+    {
+        return parent::init();
+    }
+
     /**
      * @param null $address
      * @param null $latlng
      *
      * @return string
      */
-    public static function createImage($address = null, $latlng = null)
+    public function createImage($address = null, $latlng = null)
     {
-        self::$params  = Yii::app()->getParams();
         self::$webroot = realpath(Yii::getPathOfAlias('webroot'));
 
         // get oogle geocde object
         switch (true) {
             case $address !== null :
-                $geoObject   = self::getGeoCodeObject($address, null);
+                $geoObject   = $this->getGeoCodeObject($address, null);
                 $querystring = $geoObject->geometry->location->lat . ',' . $geoObject->geometry->location->lng;
                 break;
             case $latlng !== null :
-                $geoObject   = self::getGeoCodeObject(null, $latlng);
+                $geoObject   = $this->getGeoCodeObject(null, $latlng);
                 $querystring = str_replace(' ', '', $latlng);
                 break;
             default:
@@ -321,21 +314,20 @@ class GoogleMapApi
         // generate google maps image
         $imageRequestUrl = 'http://maps.googleapis.com/maps/api/staticmap'
             . '?center=' . $querystring
-            . '&zoom=' . self::$params['GOOGLE_MAP']['ZOOM']
-            . '&size=' . self::$params['GOOGLE_MAP']['SIZE']
-            . '&maptype=' . self::$params['GOOGLE_MAP']['TYPE']
-            . '&sensor=' . self::$params['GOOGLE_MAP']['SENSOR']
-            . '&scale=' . self::$params['GOOGLE_MAP']['SCALE']
-            . '&language=' . self::$params['GOOGLE_MAP']['LANGUAGE']
-            . '&key=' . self::$params['GOOGLE_MAP']['API_KEY_IMAGE'];
+            . '&zoom=' . $this->map_zoom
+            . '&size=' . $this->map_size
+            . '&maptype=' . $this->map_type
+            . '&sensor=' . $this->map_sensor
+            . '&scale=' . $this->map_scale
+            . '&language=' . $this->map_language
+            . '&key=' . $this->staticmap_api_key;
 
         // fullpath and filename before save image
-        $address     = self::getAddressComponents($geoObject);
-        $relFilePath = self::$params['GOOGLE_MAP']['IMAGE_PATH'] . '/';
-        $relFilePath .= self::createImageFilename(
-            array($address['postal_code'], $address['locality'], $address['country']),
-            'png'
-        );
+        $address      = $this->getAddressComponents($geoObject);
+        $relFilePath  = $this->map_image_path . '/' . $this->createImageFilename(
+                array($address['postal_code'], $address['locality'], $this->getCountryByCode($address['country_code'])),
+                'png'
+            );
         $fullFilePath = self::$webroot . $relFilePath;
 
         // Request the google map image
@@ -371,27 +363,6 @@ class GoogleMapApi
     }
 
     /**
-     * @param array $attributes Input an array of attributes to create a filename from
-     * @param string $type type of the file
-     *
-     * @return string a nice slugged filename
-     */
-    public static function createImageFilename($attributes = array(), $type = 'png')
-    {
-        $rawFilename = null;
-        if (is_array($attributes) && sizeof($attributes) > 0) {
-
-            foreach ($attributes as $attribute) {
-                $rawFilename .= $attribute . '_';
-            }
-
-            $rawFilename = substr($rawFilename, 0, sizeof($rawFilename) - 2);
-
-            return utf8_decode(PhInflector::slug($rawFilename)) . '.' . $type;
-        }
-    }
-
-    /**
      * generate google maps geocode request
      *
      * if address is set, query by address, else by latlng
@@ -401,10 +372,8 @@ class GoogleMapApi
      *
      * @return JSON decoded array with all location information for this address | false
      */
-    public static function getGeoCodeObject($address = null, $latlng = null)
+    public function getGeoCodeObject($address = null, $latlng = null)
     {
-        self::$params = Yii::app()->params;
-
         if ($address !== null || $latlng !== null) {
 
             switch (true) {
@@ -424,8 +393,8 @@ class GoogleMapApi
             // query by address string
             $geoCodeUrl = 'https://maps.googleapis.com/maps/api/geocode/json'
                 . $querystring
-                . '&language=' . self::$params['GOOGLE_MAP']['LANGUAGE']
-                . '&key=' . self::$params['GOOGLE_MAP']['API_KEY_GEO'];
+                . '&language=' . $this->map_language
+                . '&key=' . $this->geocode_api_key;
 
             // get geocode object
             $ch = curl_init($geoCodeUrl);
@@ -450,11 +419,32 @@ class GoogleMapApi
     }
 
     /**
+     * @param array $attributes Input an array of attributes to create a filename from
+     * @param string $type type of the file
+     *
+     * @return string a nice slugged filename
+     */
+    private function createImageFilename($attributes = array(), $type = 'png')
+    {
+        $rawFilename = null;
+        if (is_array($attributes) && sizeof($attributes) > 0) {
+
+            foreach ($attributes as $attribute) {
+                $rawFilename .= $attribute . '_';
+            }
+
+            $rawFilename = substr($rawFilename, 0, sizeof($rawFilename) - 2);
+
+            return utf8_decode(PhInflector::slug($rawFilename)) . '.' . $type;
+        }
+    }
+
+    /**
      * @param array $address
      *
      * @return null|string address from Array as String
      */
-    public static function stringifyAddress($address = array())
+    private function stringifyAddress($address = array())
     {
         if (is_array($address)) {
 
@@ -478,7 +468,7 @@ class GoogleMapApi
      *
      * @return array|string|null
      */
-    public static function getAddressComponents($geoObject, $string = false)
+    private function getAddressComponents($geoObject, $string = false)
     {
         if (is_object($geoObject) && isset($geoObject->address_components)) {
 
@@ -510,7 +500,7 @@ class GoogleMapApi
             );
 
             if ($string === true) {
-                return self::stringifyAddress($address_array);
+                return $this->stringifyAddress($address_array);
             } else {
                 return $address_array;
             }
