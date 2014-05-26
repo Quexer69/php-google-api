@@ -15,8 +15,8 @@ in your app and/or console configuration file, add these
                 /**
                  * Google Maps Image and Geocode API settings
                  */
-                'staticmap_api_key' => 'AIzaSyBLBPqma_9xReVGyq22Z0nIYrbymkdqjjo',
-                'geocode_api_key'   => 'AIzaSyC5TEafNG5sTT42j4X5RVXxdXnhk5o4Bz8',
+                'staticmap_api_key' => '***************************************',
+                'geocode_api_key'   => '***************************************',
                 'map_type'          => 'terrain',
                 'map_size'          => '520x350',
                 'map_sensor'        => false,
