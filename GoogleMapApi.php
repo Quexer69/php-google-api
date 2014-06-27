@@ -22,6 +22,8 @@ class GoogleMapApi extends CApplicationComponent
     public $geocode_api_key;
     public $map_type = 'terrain';
     public $map_size = '520x350';
+    public $map_iframe_width = '100%';
+    public $map_iframe_height = '500';    
     public $map_sensor = false;
     public $map_zoom = 9;
     public $map_scale = 1;
@@ -286,6 +288,62 @@ class GoogleMapApi extends CApplicationComponent
         return parent::init();
     }
 
+    
+    /**
+     * @param null $address
+     * @param null $latlng
+     *
+     * @return string
+     */
+    public function getGoogleMapIframe($address = null, $latlng = null)
+    {
+        switch (true) {
+            case $address !== null :
+                $geoObject   = $this->getGeoCodeObject($address, null);
+                $querystring = $geoObject->geometry->location->lat . ',' . $geoObject->geometry->location->lng;
+                break;
+            case $latlng !== null :
+                $geoObject   = $this->getGeoCodeObject(null, $latlng);
+                $querystring = str_replace(' ', '', $latlng);
+                break;
+            default:
+                $querystring = false;
+                break;
+        }
+        
+        
+        //var_dump($geoObject);
+        
+        // generate google map
+        $mapRequestUrl = 'https://maps.google.de/maps'
+            . '?q=' . $geoObject->formatted_address
+            . '&ie=UTF8'
+            //. '&hnear=berlin'
+            . '&t=' . $this->map_type
+            . '&z=' . $this->map_zoom
+            . '&ll=' . $latlng
+            . '&output=embed';
+   
+            //. '?center=' . $querystring
+            //. '&zoom=' . $this->map_zoom
+            //. '&size=' . $this->map_size
+            //. '&maptype=' . $this->map_type
+            //. '&sensor=' . $this->map_sensor
+            //. '&scale=' . $this->map_scale
+            //. '&language=' . $this->map_language
+            //. '&key=' . $this->staticmap_api_key;
+        
+        $return = '<iframe frameborder="0" marginheight="0" marginwidth="0" scrolling="no" '
+                //. 'src="https://maps.google.de/maps?'
+                //. 'q=berlin&amp;ie=UTF8&amp;hq=&amp;hnear=Rom,+Italien&amp;t=h&amp;ll=' . $latlng . '&amp;spn=0.299139,0.583649&amp;z=10&amp;iwloc=&amp;output=embed" width="100%"></iframe>';
+                . 'src="' . $mapRequestUrl . '" '
+                . 'width="' . $this->map_iframe_width . '" '
+                . 'height="' . $this->map_iframe_height . '">'
+                . '</iframe>';
+        
+        return $return;  
+        
+    }
     /**
      * @param null $address
      * @param null $latlng
@@ -296,7 +354,7 @@ class GoogleMapApi extends CApplicationComponent
     {
         self::$webroot = realpath(Yii::getPathOfAlias('webroot'));
 
-        // get oogle geocde object
+        // get google geocde object
         switch (true) {
             case $address !== null :
                 $geoObject   = $this->getGeoCodeObject($address, null);
