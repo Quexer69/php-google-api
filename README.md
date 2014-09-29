@@ -24,6 +24,7 @@ in your app and/or console configuration file, add these
                 'map_scale'         => 1,
                 'map_image_path'    => '/images/google_map',
                 'language'          => 'de',
+                'quiet'             => false
     	),
 		...
 	),

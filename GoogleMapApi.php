@@ -27,6 +27,7 @@ class GoogleMapApi extends CApplicationComponent
     public $map_scale = 1;
     public $map_image_path = '/images';
     public $map_language = 'en';
+    public $quiet = false;
 
     /**
      * @var full path to webroot
@@ -353,7 +354,9 @@ class GoogleMapApi extends CApplicationComponent
             file_put_contents($fullFilePath, $googleImage);
             @ini_set('allow_url_fopen', 0);
 
-            echo "\n -> Image: " . $relFilePath;
+            if (!$this->quiet) {
+                echo "\n -> Image: " . $relFilePath;
+            }
 
             // Close handle
             curl_close($handler);
@@ -414,7 +417,9 @@ class GoogleMapApi extends CApplicationComponent
                 return false;
             }
         } else {
-            echo 'getGeoCodeObject() -> no input params given.';
+            if (!$this->quiet) {
+                echo 'getGeoCodeObject() -> no input params given.';
+            }
         }
     }
 
