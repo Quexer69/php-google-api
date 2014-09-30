@@ -58,7 +58,11 @@ in your app and/or console configuration file, add these
 ---
 
 `public function createImage($address = null, $latlng = null, $setMarker = false)`
+
 `public function getGeoCodeObject($address = null, $latlng = null)`
+
 `public function getDistance($start = array(), $finish = array(), $unit = 'miles')`
+
 `public static function getCountryByCode($short_country_code)`
+
 
