@@ -23,6 +23,7 @@ in your app and/or console configuration file, add these
                 'map_zoom'          => 9,
                 'map_scale'         => 1,
                 'map_image_path'    => '/images/google_map',
+                'map_marker_color   => 'red',
                 'language'          => 'de',
                 'quiet'             => false
     	),
