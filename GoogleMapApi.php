@@ -27,6 +27,7 @@ class GoogleMapApi extends CApplicationComponent
     public $map_scale = 1;
     public $map_image_path = '/images';
     public $map_language = 'en';
+    public $map_marker_color = 'red';
     public $quiet = false;
 
     /**
@@ -293,7 +294,7 @@ class GoogleMapApi extends CApplicationComponent
      *
      * @return string
      */
-    public function createImage($address = null, $latlng = null)
+    public function createImage($address = null, $latlng = null, $setMarker = false)
     {
         self::$webroot = realpath(Yii::getPathOfAlias('webroot'));
 
@@ -322,6 +323,9 @@ class GoogleMapApi extends CApplicationComponent
             . '&scale=' . $this->map_scale
             . '&language=' . $this->map_language
             . '&key=' . $this->staticmap_api_key;
+
+        // add 'markers' param if $setMarker is true (places marker on provided $geoObject)
+        $imageRequestUrl .= ($setMarker === true ? '&markers=color:' . $this->map_marker_color . '|' . $querystring : '');
 
         // fullpath and filename before save image
         $address      = $this->getAddressComponents($geoObject);
