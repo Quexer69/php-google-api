@@ -1,9 +1,9 @@
 PHP Google API
 ===
 
-Version 1.1.1
+Version 2.0.0
 
-...for Google Map API v3, PHP >= 5, Yii 1.*
+...for Google Map API v3, PHP >= 5.3.0, Yii 1.*
 
 ###Configuration
 ---
@@ -54,7 +54,11 @@ in your app and/or console configuration file, add these
 
     $distance		  = Yii::app()->googleMapApi->getDistance($latlng_origin, $latlng_destination, $unit);
 
-###Method descriptions
+###Public Methods
 ---
 
-TBD.
+`public function createImage($address = null, $latlng = null, $setMarker = false)`
+`public function getGeoCodeObject($address = null, $latlng = null)`
+`public function getDistance($start = array(), $finish = array(), $unit = 'miles')`
+`public static function getCountryByCode($short_country_code)`
+
