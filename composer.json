@@ -11,7 +11,7 @@
     "license": "BSD-3-Clause",
     "minimum-stability": "dev",
     "require": {
-        "schmunk42/php-inflector": "1.0.*"
+        "schmunk42/php-inflector": "0.3.*"
     },
     "authors": [
         {

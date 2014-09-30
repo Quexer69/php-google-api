@@ -1,6 +1,9 @@
 Google API Changelog
 ===
 
+###3.1.0
+- change dependency to schmunk42/php-inflector (dep to 0.3.*)
+
 ###3.0.0
 - re-add dependency to schmunk42/php-inflector (dep to 1.0.*)
 
