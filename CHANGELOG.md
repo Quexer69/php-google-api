@@ -1,6 +1,9 @@
 Google API Changelog
 ===
 
+###3.0.0
+- re-add dependency to schmunk42/php-inflector (dep to 1.0.*)
+
 ###2.0.0
 - remove dependency to schmunk42/php-inflector
 - add transliteration for creating image filenames

@@ -1,11 +1,18 @@
 {
     "name": "quexer69/php-google-api",
     "description": "A collection of google map api calls, staticmap, geocode",
-	"version": "2.0.0",
-    "keywords": ["yii", "google", "api"],
+    "keywords": [
+        "yii",
+        "google",
+        "api"
+    ],
     "homepage": "https://github.com/Quexer69/php-google-api",
     "type": "library",
     "license": "BSD-3-Clause",
+    "minimum-stability": "dev",
+    "require": {
+        "schmunk42/php-inflector": "1.0.*"
+    },
     "authors": [
         {
             "name": "Christopher Stebe",
