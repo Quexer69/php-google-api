@@ -10,9 +10,6 @@
     "type": "library",
     "license": "BSD-3-Clause",
     "minimum-stability": "dev",
-    "require": {
-        "schmunk42/php-inflector": "0.3.*"
-    },
     "authors": [
         {
             "name": "Christopher Stebe",
@@ -23,6 +20,7 @@
         "classmap": ["GoogleMapApi.php"]
     },
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.3.0",
+        "schmunk42/php-inflector": "0.3.*"
     }
 }
