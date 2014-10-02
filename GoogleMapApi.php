@@ -298,7 +298,7 @@ class GoogleMapApi extends CApplicationComponent
     {
         self::$webroot = realpath(Yii::getPathOfAlias('webroot'));
 
-        // get oogle geocde object
+        // get google geocde object
         switch (true) {
             case $address !== null :
                 $geoObject   = $this->getGeoCodeObject($address, null);
