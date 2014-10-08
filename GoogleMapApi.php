@@ -294,50 +294,61 @@ class GoogleMapApi extends CApplicationComponent
     /**
      * @param null $address
      * @param null $latlng
+     * @param null $iFrameWidth
+     * @param null $iFrameHeight
      *
      * @return string
      */
-    public function getGoogleMapIframe($address = null, $latlng = null)
+    public function getGoogleMapIframe($address = null, $latlng = null, $iFrameWidth = null, $iFrameHeight = null)
     {
+        switch (true) {
+            case $iFrameWidth !== null:
+                $this->map_iframe_width = $iFrameWidth;
+                break;
+            case $iFrameHeight !== null:
+                $this->map_iframe_height = $iFrameHeight;
+                break;
+        }
+
         switch (true) {
             case $address !== null :
                 $geoObject   = $this->getGeoCodeObject($address, null);
-                $querystring = $geoObject->geometry->location->lat . ',' . $geoObject->geometry->location->lng;
+                $latlng = $geoObject->geometry->location->lat . ',' . $geoObject->geometry->location->lng;
                 break;
-            case $latlng !== null :
-                $geoObject   = $this->getGeoCodeObject(null, $latlng);
-                $querystring = str_replace(' ', '', $latlng);
-                break;
+
             default:
-                $querystring = false;
                 break;
         }
-        
-        
-        //var_dump($geoObject);
-        
+
+        // map google map types to embed map types
+        switch ($this->map_type) {
+            case 'satellite':
+                $mapType = 'k';
+                break;
+
+            case 'hybrid':
+                $mapType = 'h';
+                break;
+
+            case 'terrain':
+                $mapType = 'p';
+                break;
+
+            default:
+                $mapType = 'm';
+                break;
+        }
+
         // generate google map
         $mapRequestUrl = 'https://maps.google.de/maps'
-            . '?q=' . $geoObject->formatted_address
+            . '?q=' . $latlng
             . '&ie=UTF8'
-            //. '&hnear=berlin'
-            . '&t=' . $this->map_type
+            . '&t=' . $mapType
             . '&z=' . $this->map_zoom
-            . '&ll=' . $latlng
+            . '&hl=' . $this->map_language
             . '&output=embed';
-   
-            //. '?center=' . $querystring
-            //. '&zoom=' . $this->map_zoom
-            //. '&size=' . $this->map_size
-            //. '&maptype=' . $this->map_type
-            //. '&sensor=' . $this->map_sensor
-            //. '&scale=' . $this->map_scale
-            //. '&language=' . $this->map_language
-            //. '&key=' . $this->staticmap_api_key;
-        
+
         $return = '<iframe frameborder="0" marginheight="0" marginwidth="0" scrolling="no" '
-                //. 'src="https://maps.google.de/maps?'
-                //. 'q=berlin&amp;ie=UTF8&amp;hq=&amp;hnear=Rom,+Italien&amp;t=h&amp;ll=' . $latlng . '&amp;spn=0.299139,0.583649&amp;z=10&amp;iwloc=&amp;output=embed" width="100%"></iframe>';
                 . 'src="' . $mapRequestUrl . '" '
                 . 'width="' . $this->map_iframe_width . '" '
                 . 'height="' . $this->map_iframe_height . '">'
@@ -346,6 +357,7 @@ class GoogleMapApi extends CApplicationComponent
         return $return;  
         
     }
+    
     /**
      * @param null $address
      * @param null $latlng
@@ -439,6 +451,15 @@ class GoogleMapApi extends CApplicationComponent
      */
     public function getGeoCodeObject($address = null, $latlng = null)
     {
+        switch (true) {
+            case $iFrameWidth !== null:
+                $this->map_iframe_width = $iFrameWidth;
+                break;
+            case $iFrameHeight !== null:
+                $this->map_iframe_height = $iFrameHeight;
+                break;
+        }
+
         if ($address !== null || $latlng !== null) {
 
             switch (true) {
