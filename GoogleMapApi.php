@@ -11,7 +11,7 @@
  * Class GoogleMapApi
  * @description for the Google Maps API v3
  * @date 2014-09-30
- * @version 3.1.1
+ * @version 3.2.0
  * @author Christopher Stebe <cstebe@iserv4u.com>
  *
  */

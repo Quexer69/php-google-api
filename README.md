@@ -23,7 +23,9 @@ in your app and/or console configuration file, add these
                 'map_zoom'          => 9,
                 'map_scale'         => 1,
                 'map_image_path'    => '/images/google_map',
-                'map_marker_color   => 'red',
+                'map_marker_color'  => 'red',
+                'map_iframe_width'  => '100%',
+                'map_iframe_height' => '500',
                 'language'          => 'de',
                 'quiet'             => false
     	),
@@ -62,5 +64,7 @@ in your app and/or console configuration file, add these
 `public function getDistance($start = array(), $finish = array(), $unit = 'miles')`
 
 `public static function getCountryByCode($short_country_code)`
+
+`public function getGoogleMapIframe($address = null, $latlng = null, $iFrameWidth = null, $iFrameHeight = null)`
 
 

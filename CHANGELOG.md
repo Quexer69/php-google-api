@@ -1,6 +1,9 @@
 Google API Changelog
 ===
 
+###3.2.0
+- add method getGoogleMapIframe()
+
 ###3.1.1
 - fix composer.json
 
