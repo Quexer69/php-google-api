@@ -22,6 +22,8 @@ class GoogleMapApi extends CApplicationComponent
     public $geocode_api_key;
     public $map_type = 'terrain';
     public $map_size = '520x350';
+    public $map_iframe_width = '100%';
+    public $map_iframe_height = '500';    
     public $map_sensor = false;
     public $map_zoom = 9;
     public $map_scale = 1;
@@ -288,6 +290,74 @@ class GoogleMapApi extends CApplicationComponent
         return parent::init();
     }
 
+    
+    /**
+     * @param null $address
+     * @param null $latlng
+     * @param null $iFrameWidth
+     * @param null $iFrameHeight
+     *
+     * @return string
+     */
+    public function getGoogleMapIframe($address = null, $latlng = null, $iFrameWidth = null, $iFrameHeight = null)
+    {
+        switch (true) {
+            case $iFrameWidth !== null:
+                $this->map_iframe_width = $iFrameWidth;
+                break;
+            case $iFrameHeight !== null:
+                $this->map_iframe_height = $iFrameHeight;
+                break;
+        }
+
+        switch (true) {
+            case $address !== null :
+                $geoObject   = $this->getGeoCodeObject($address, null);
+                $latlng = $geoObject->geometry->location->lat . ',' . $geoObject->geometry->location->lng;
+                break;
+
+            default:
+                break;
+        }
+
+        // map google map types to embed map types
+        switch ($this->map_type) {
+            case 'satellite':
+                $mapType = 'k';
+                break;
+
+            case 'hybrid':
+                $mapType = 'h';
+                break;
+
+            case 'terrain':
+                $mapType = 'p';
+                break;
+
+            default:
+                $mapType = 'm';
+                break;
+        }
+
+        // generate google map
+        $mapRequestUrl = 'https://maps.google.de/maps'
+            . '?q=' . $latlng
+            . '&ie=UTF8'
+            . '&t=' . $mapType
+            . '&z=' . $this->map_zoom
+            . '&hl=' . $this->map_language
+            . '&output=embed';
+
+        $return = '<iframe frameborder="0" marginheight="0" marginwidth="0" scrolling="no" '
+                . 'src="' . $mapRequestUrl . '" '
+                . 'width="' . $this->map_iframe_width . '" '
+                . 'height="' . $this->map_iframe_height . '">'
+                . '</iframe>';
+        
+        return $return;  
+        
+    }
+    
     /**
      * @param null $address
      * @param null $latlng
