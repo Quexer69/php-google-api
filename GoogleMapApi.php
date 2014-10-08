@@ -10,8 +10,8 @@
 /**
  * Class GoogleMapApi
  * @description for the Google Maps API v3
- * @date 2014-05-25
- * @version 1.0.0
+ * @date 2014-09-30
+ * @version 3.1.1
  * @author Christopher Stebe <cstebe@iserv4u.com>
  *
  */
@@ -451,15 +451,6 @@ class GoogleMapApi extends CApplicationComponent
      */
     public function getGeoCodeObject($address = null, $latlng = null)
     {
-        switch (true) {
-            case $iFrameWidth !== null:
-                $this->map_iframe_width = $iFrameWidth;
-                break;
-            case $iFrameHeight !== null:
-                $this->map_iframe_height = $iFrameHeight;
-                break;
-        }
-
         if ($address !== null || $latlng !== null) {
 
             switch (true) {
@@ -542,9 +533,9 @@ class GoogleMapApi extends CApplicationComponent
      */
     private function createImageFilename($attributes = array(), $type = 'png')
     {
-        $rawFilename = null;
         if (is_array($attributes) && sizeof($attributes) > 0) {
 
+            $rawFilename = null;
             foreach ($attributes as $attribute) {
                 $rawFilename .= $attribute . '_';
             }
@@ -552,6 +543,8 @@ class GoogleMapApi extends CApplicationComponent
             $rawFilename = substr($rawFilename, 0, sizeof($rawFilename) - 2);
 
             return utf8_decode(PhInflector::slug($rawFilename)) . '.' . $type;
+        } else {
+            return null;
         }
     }
 
