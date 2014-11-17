@@ -25,7 +25,7 @@ in your app and/or console configuration file, add these
                 'map_image_path'    => '/images/google_map',
                 'map_marker_color'  => 'red',
                 'map_iframe_width'  => '100%',
-                'map_iframe_height' => '500',
+                'map_iframe_height' => '500', // in px
                 'language'          => 'de',
                 'quiet'             => false
     	),
@@ -57,14 +57,15 @@ in your app and/or console configuration file, add these
 ###Public Methods
 ---
 
-`public function createImage($address = null, $latlng = null, $setMarker = false)`
+`public function getGoogleMapIframe($address, $latlng, $iFrameWidth, $iFrameHeight)`
 
-`public function getGeoCodeObject($address = null, $latlng = null)`
+`public function createImage($address, $latlng, $setMarker)`
 
-`public function getDistance($start = array(), $finish = array(), $unit = 'miles')`
+`public function getGeoCodeObject($address, $latlng)`
+
+`public function getDistance($start, $finish, $unit)`
 
 `public static function getCountryByCode($short_country_code)`
 
-`public function getGoogleMapIframe($address = null, $latlng = null, $iFrameWidth = null, $iFrameHeight = null)`
 
 
