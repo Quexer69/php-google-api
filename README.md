@@ -1,7 +1,7 @@
 PHP Google API
 ===
 
-Version 3.2.0
+*Version 3.2.0*
 
 ...for Google Map API v3, PHP >= 5.3.0, Yii 1.*
 
