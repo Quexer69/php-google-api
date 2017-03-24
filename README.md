@@ -1,7 +1,9 @@
 PHP Google API
 ===
 
-*Version 3.2.0*
+[![Latest Stable Version](https://poser.pugx.org/Quexer69/php-google-api/v/stable.svg)](https://packagist.org/packages/Quexer69/php-google-api) 
+[![Total Downloads](https://poser.pugx.org/Quexer69/php-google-api/downloads.svg)](https://packagist.org/packages/Quexer69/php-google-api)
+[![License](https://poser.pugx.org/Quexer69/php-google-api/license.svg)](https://packagist.org/packages/Quexer69/php-google-api)
 
 ...for Google Map API v3, PHP >= 5.3.0, Yii 1.*
 
